@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 
 const RegisterTestForm = () => {
 
@@ -8,7 +8,7 @@ const RegisterTestForm = () => {
     const handleInputChange = (event: any) => {
         setFormData(data => ({...data, [event.target.name]: event.target.value}));
     }
-
+    let navigate = useNavigate();
     const handleSubmit = (event: any) => {
         event.preventDefault();
         console.log(formData);
@@ -21,22 +21,36 @@ const RegisterTestForm = () => {
                 },
                 body: JSON.stringify(formData)
             }
-        ).then(null)
+        ).then(
+            res => {
+                if (res.ok) {
+                    console.log('registered successfully')
+                    navigate('/login')
+                } else {
+                    console.log('error while trying to register')
+                }
+            }
+        ).catch(error => console.log('Error: ', error))
     }
 
     return (
-        <form className={'TestForm'} method={'post'} onSubmit={handleSubmit}>
-            <h2>Sign up</h2>
+        <div className={'TestForm'}>
+            <form method={'post'} onSubmit={handleSubmit}>
+                <h2>Sign up</h2>
 
-            <label>Name:</label>
-            <input type={'text'} onChange={handleInputChange} name={'username'}/>
-            <label>Password:</label>
-            <input type={'password'} onChange={handleInputChange} name={'password'}/>
+                <label>Name:</label>
+                <input type={'text'} onChange={handleInputChange} name={'username'}/>
+                <label>Password:</label>
+                <input type={'password'} onChange={handleInputChange} name={'password'}/>
 
-            <input type={'submit'} value={'sign in'}/>
-            <Link to={'/home'}>Home</Link>
-            <Link to={'/login'}>Login</Link>
-        </form>
+                <input type={'submit'} value={'Register'}/>
+            </form>
+            <div className={'LinkBox'}>
+                <Link className={'Link'} to={'/home'}>Home</Link>
+                <Link className={'Link'} to={'/login'}>Log in</Link>
+            </div>
+        </div>
+
     );
 };
 

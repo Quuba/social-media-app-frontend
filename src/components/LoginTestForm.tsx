@@ -1,7 +1,9 @@
 import React, {useState} from 'react';
-import {BrowserRouter, Link} from "react-router-dom";
+import {BrowserRouter, Link, Navigate, useNavigate} from "react-router-dom";
 
 const LoginTestForm = () => {
+
+    const navigate = useNavigate();
 
     const [formData, setFormData] = useState({});
 
@@ -21,11 +23,19 @@ const LoginTestForm = () => {
                 },
                 body: JSON.stringify(formData)
             }
-        ).then(null)
+        ).then(
+            res => res.json()
+        ).then(
+            data=>{
+                console.log('logged in successfully')
+                navigate(`/user/${data.username}`)
+            }
+        ).catch(error => console.log('Error: ',error))
     }
 
     return (
-            <form className={'TestForm'} method={'post'} onSubmit={handleSubmit}>
+        <div className={'TestForm'}>
+            <form  method={'post'} onSubmit={handleSubmit}>
                 <h2>Sign in</h2>
 
                 <label>Name:</label>
@@ -33,10 +43,14 @@ const LoginTestForm = () => {
                 <label>Password:</label>
                 <input type={'password'} onChange={handleInputChange} name={'password'}/>
 
-                <input type={'submit'} value={'sign in'}/>
-                <Link to={'/home'}>Home</Link>
-                <Link to={'/register'}>Register</Link>
+                <input type={'submit'} value={'Log in'}/>
             </form>
+            <div className={'LinkBox'}>
+                <Link className={'Link'} to={'/home'}>Home</Link>
+                <Link className={'Link'} to={'/register'}>Register</Link>
+            </div>
+        </div>
+
 
 
     );

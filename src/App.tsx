@@ -11,16 +11,23 @@ import {useRoutes, Routes, Route, Link, HashRouter} from "react-router-dom";
 const App = () => {
 
     let route = useRoutes([
-        {path:'/', element:<HomePage/>},
-        {path:'login', element:<LoginTestForm/>},
-        {path:'register', element: <RegisterTestForm/>}
+        {path: '/', element: <HomePage/>},
+        {path: '/home', element: <HomePage/>},
+        {path: '/login', element: <LoginTestForm/>},
+        {path: '/register', element: <RegisterTestForm/>},
+        {path: '/user/:username', element: <HomePage/>}
+
     ])
 
-    return route
+    return (
+        <div className={'App'}>
+            {route}
+        </div>
+    )
 }
 
-const AppWrapper = () =>{
-    return(
+const AppWrapper = () => {
+    return (
         <HashRouter>
             <App/>
         </HashRouter>

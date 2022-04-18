@@ -1,12 +1,20 @@
-import React from 'react';
-import {HashRouter, Link} from "react-router-dom";
+import React, {useEffect} from 'react';
+import {HashRouter, Link, useParams} from "react-router-dom";
 
 const HomePage = () => {
+
+
+    let {username} = useParams()
+
+
     return (
         <div className={'Home'}>
-            <h2>Hello</h2>
-            <Link to={'/login'}>Login</Link>
-            <Link to={'/register'}>register</Link>
+            <h2>Home Page</h2>
+            {username != null ? <h3>Hello {username}</h3> : <></>}
+            <div className={'LinkBox'}>
+                <Link className={'Link'} to={'/login'}>Log in</Link>
+                <Link className={'Link'} to={'/register'}>Register</Link>
+            </div>
 
         </div>
 

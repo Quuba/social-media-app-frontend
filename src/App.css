@@ -5,6 +5,50 @@
   align-items: center;
 }
 
+/*
+color palette:
+#2F5D62
+#5E8B7E
+#A7C4BC
+#DFEEEA
+*/
+.Home, .TestForm{
+  background-color: #5E8B7E;
+  margin-top: 50px;
+  width: 50%;
+  height: 50%;
+  border: 2px solid #A7C4BC;
+  border-radius: 15px;
+
+  color: #DFEEEA;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+}
+.TestForm form{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+a{
+  color: #DFEEEA;
+  text-decoration: none;
+}
+a:hover{
+  text-decoration: underline;
+}
+.LinkBox{
+  display: flex;
+  flex-direction: column;
+}
+
+.App{
+  background-color: #2F5D62;
+  height: 100vh;
+}
 
 
 
