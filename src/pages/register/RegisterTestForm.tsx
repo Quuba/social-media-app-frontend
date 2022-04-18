@@ -1,21 +1,19 @@
-import React, {useState} from 'react';
-import {BrowserRouter, Link, Navigate, useNavigate} from "react-router-dom";
+import React, {useEffect, useState} from 'react';
+import {Link, useNavigate} from "react-router-dom";
 
-const LoginTestForm = () => {
-
-    const navigate = useNavigate();
+const RegisterTestForm = () => {
 
     const [formData, setFormData] = useState({});
 
     const handleInputChange = (event: any) => {
         setFormData(data => ({...data, [event.target.name]: event.target.value}));
     }
-
+    let navigate = useNavigate();
     const handleSubmit = (event: any) => {
         event.preventDefault();
         console.log(formData);
         fetch(
-            'http://localhost:8080/user/login',
+            'http://localhost:8080/user/register',
             {
                 method: 'POST',
                 headers: {
@@ -24,36 +22,38 @@ const LoginTestForm = () => {
                 body: JSON.stringify(formData)
             }
         ).then(
-            res => res.json()
-        ).then(
-            data=>{
-                console.log('logged in successfully')
-                navigate(`/user/${data.username}`)
+            res => {
+                if (res.ok) {
+                    console.log('registered successfully')
+                    navigate('/login')
+                } else {
+                    console.log('error while trying to register')
+                }
             }
-        ).catch(error => console.log('Error: ',error))
+        ).catch(error => console.log('Error: ', error))
     }
 
     return (
         <div className={'TestForm'}>
-            <form  method={'post'} onSubmit={handleSubmit}>
-                <h2>Sign in</h2>
+            <form method={'post'} onSubmit={handleSubmit}>
+                <h2>Sign up</h2>
 
                 <label>Name:</label>
                 <input type={'text'} onChange={handleInputChange} name={'username'}/>
+
+                <hr/>
+
                 <label>Password:</label>
                 <input type={'password'} onChange={handleInputChange} name={'password'}/>
 
-                <input type={'submit'} value={'Log in'}/>
+                <hr/>
+
+                <input type={'submit'} value={'Sign up'}/>
             </form>
-            <div className={'LinkBox'}>
-                <Link className={'Link'} to={'/home'}>Home</Link>
-                <Link className={'Link'} to={'/register'}>Register</Link>
-            </div>
+            <span>Already an user? <Link to={'/login'}><br/> Sign in</Link></span>
         </div>
-
-
 
     );
 };
 
-export default LoginTestForm;
+export default RegisterTestForm;

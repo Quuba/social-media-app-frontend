@@ -1,19 +1,21 @@
-import React, {useEffect, useState} from 'react';
-import {Link, useNavigate} from "react-router-dom";
+import React, {useState} from 'react';
+import {BrowserRouter, Link, Navigate, useNavigate} from "react-router-dom";
 
-const RegisterTestForm = () => {
+const LoginTestForm = () => {
+
+    const navigate = useNavigate();
 
     const [formData, setFormData] = useState({});
 
     const handleInputChange = (event: any) => {
         setFormData(data => ({...data, [event.target.name]: event.target.value}));
     }
-    let navigate = useNavigate();
+
     const handleSubmit = (event: any) => {
         event.preventDefault();
         console.log(formData);
         fetch(
-            'http://localhost:8080/user/register',
+            'http://localhost:8080/user/login',
             {
                 method: 'POST',
                 headers: {
@@ -22,13 +24,14 @@ const RegisterTestForm = () => {
                 body: JSON.stringify(formData)
             }
         ).then(
-            res => {
-                if (res.ok) {
-                    console.log('registered successfully')
-                    navigate('/login')
-                } else {
-                    console.log('error while trying to register')
-                }
+            res => res.json()
+        ).then(
+            data => {
+                console.log('logged in successfully')
+                localStorage.setItem('username', data.username);
+                localStorage.setItem('logged', 'true');
+
+                navigate('/home')
             }
         ).catch(error => console.log('Error: ', error))
     }
@@ -36,22 +39,24 @@ const RegisterTestForm = () => {
     return (
         <div className={'TestForm'}>
             <form method={'post'} onSubmit={handleSubmit}>
-                <h2>Sign up</h2>
+                <h2>Sign in</h2>
 
                 <label>Name:</label>
                 <input type={'text'} onChange={handleInputChange} name={'username'}/>
+
+                <hr/>
+
                 <label>Password:</label>
                 <input type={'password'} onChange={handleInputChange} name={'password'}/>
 
-                <input type={'submit'} value={'Register'}/>
+                <hr/>
+
+                <input type={'submit'} value={'Sign in'}/>
             </form>
-            <div className={'LinkBox'}>
-                <Link className={'Link'} to={'/home'}>Home</Link>
-                <Link className={'Link'} to={'/login'}>Log in</Link>
-            </div>
         </div>
+
 
     );
 };
 
-export default RegisterTestForm;
+export default LoginTestForm;
