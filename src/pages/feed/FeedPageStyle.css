@@ -12,9 +12,42 @@
 
 }
 .Post{
-    background-color: var(--primary-color);
+    background-color: var(--primary-dark-color);
     width: 90%;
     margin-bottom: 10px;
 
     min-height: 100px;
+}
+
+.Post .ProfilePicture{
+    max-height: 50px;
+}
+.TopBar{
+    padding-left: 10px;
+    padding-top: 10px;
+    width: 100%;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+}
+.TopBar span{
+    margin-left: 20px;
+}
+.Post .Content{
+    padding: 5px 15px;
+    text-align: left;
+}
+.Post .Buttons{
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    padding: 5px;
+    font-size: 18px;
+}
+.Buttons a{
+    cursor: pointer;
+}
+.Buttons a:hover{
+    text-decoration: none;
+    background-color: var(--complementary-dark-color);
 }

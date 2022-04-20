@@ -4,6 +4,7 @@ import {Link, useNavigate} from "react-router-dom";
 const RegisterTestForm = () => {
 
     const [formData, setFormData] = useState({});
+    const [signupError, setSignupError] = useState<string>("")
 
     const handleInputChange = (event: any) => {
         setFormData(data => ({...data, [event.target.name]: event.target.value}));
@@ -28,6 +29,8 @@ const RegisterTestForm = () => {
                     navigate('/login')
                 } else {
                     console.log('error while trying to register')
+                    setSignupError('bad credentials')
+                    event.target.reset();
                 }
             }
         ).catch(error => console.log('Error: ', error))
@@ -37,16 +40,16 @@ const RegisterTestForm = () => {
         <div className={'TestForm'}>
             <form method={'post'} onSubmit={handleSubmit}>
                 <h2>Sign up</h2>
+                <div className={'Inputs'}>
+                    <label>Name:</label>
+                    <input type={'text'} onChange={handleInputChange} name={'username'}/>
 
-                <label>Name:</label>
-                <input type={'text'} onChange={handleInputChange} name={'username'}/>
 
-                <hr/>
+                    <label>Password:</label>
+                    <input type={'password'} onChange={handleInputChange} name={'password'}/>
+                </div>
 
-                <label>Password:</label>
-                <input type={'password'} onChange={handleInputChange} name={'password'}/>
-
-                <hr/>
+                {signupError!="" && <span style={{backgroundColor:"darkred", fontWeight:"bold", padding:"5px"}}>{signupError}</span>}
 
                 <input type={'submit'} value={'Sign up'}/>
             </form>
