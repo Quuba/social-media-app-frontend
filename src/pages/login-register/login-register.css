@@ -1,0 +1,70 @@
+.RegisterPage, .LoginPage{
+    margin-top: 5vh;
+    width: 60vw;
+    height: 70vh;
+
+    box-shadow: black 10px 10px;
+
+    background-color: var(--complementary-light-color);
+
+    display: grid;
+
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+}
+
+.RegisterPage form, .LoginPage form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    align-self: center;
+    justify-self: center;
+    width: 90%;
+    height: 90%;
+
+    display: flex;
+    flex-direction: column;
+}
+form input{
+    width: 30%;
+    height: 20px;
+    margin-top: 8px;
+    margin-bottom: 5px;
+}
+
+form input[type="submit"]{
+    width: 15%;
+    height: 30px;
+}
+
+.signup-error{
+    margin-top: 10px;
+    width: 30%;
+    text-align: center;
+}
+
+form label{
+    width: fit-content;
+    color: var(--text-light-color);
+    padding: 6px;
+    background-color: var(--primary-dark-color);
+    border-radius: 2px;
+
+    margin-top: 10px;
+
+    box-shadow: black 5px 5px;
+}
+label span{
+    font-weight: bold;
+    color: red;
+    position: relative;
+    top: 3px;
+}
+
+h3{
+    font-size: 20px;
+}
+.RegisterPage h4, .LoginPage h4{
+    margin-bottom: 15px;
+}

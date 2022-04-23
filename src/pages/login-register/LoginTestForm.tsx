@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
-import {BrowserRouter, Link, Navigate, useNavigate} from "react-router-dom";
-
+import {Link, useNavigate} from "react-router-dom";
 
 
 const LoginTestForm = () => {
@@ -33,15 +32,24 @@ const LoginTestForm = () => {
                     res.json().then(
                         data => {
                             console.log('logged in successfully')
-                            localStorage.setItem('username', data.username);
-                            localStorage.setItem('logged', 'true');
 
-                            navigate('/home')
+                            // console.log(data[0])
+                            // localStorage.setItem('JWS', data.username);
+                            // localStorage.setItem('logged', 'true');
+                            //
+                            // navigate('/home')
                         }
                     )
                 } else {
+                    switch (res.status){
+                        case 404:
+                            setLoginError('user not found')
+                            break;
+                        case 401:
+                            setLoginError('wrong password')
+                            break;
+                    }
                     console.log('failed to log in')
-                    setLoginError('bad credentials')
                     event.target.reset();
                 }
             }
@@ -49,7 +57,7 @@ const LoginTestForm = () => {
     }
 
     return (
-        <div className={'TestForm'} id={'login-form'}>
+        <div className={'TestForm'} id={'login-register-form'}>
             <form method={'post'} onSubmit={handleSubmit}>
                 <h2>Sign in</h2>
                 <div className={'Inputs'}>
@@ -60,7 +68,7 @@ const LoginTestForm = () => {
                     <input type={'password'} onChange={handleInputChange} name={'password'}/>
                 </div>
 
-                {loginError!="" && <span style={{backgroundColor:"darkred", fontWeight:"bold", padding:"5px"}}>{loginError}</span>}
+                {loginError!=="" && <span style={{backgroundColor:"darkred", fontWeight:"bold", padding:"5px"}}>{loginError}</span>}
 
                 <input type={'submit'} value={'Sign in'}/>
             </form>

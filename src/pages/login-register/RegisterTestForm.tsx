@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {Link, useNavigate} from "react-router-dom";
 
 const RegisterTestForm = () => {
@@ -9,7 +9,9 @@ const RegisterTestForm = () => {
     const handleInputChange = (event: any) => {
         setFormData(data => ({...data, [event.target.name]: event.target.value}));
     }
+
     let navigate = useNavigate();
+
     const handleSubmit = (event: any) => {
         event.preventDefault();
         console.log(formData);
@@ -26,10 +28,17 @@ const RegisterTestForm = () => {
             res => {
                 if (res.ok) {
                     console.log('registered successfully')
-                    navigate('/login')
+                    navigate('/login-register')
                 } else {
+                    switch (res.status){
+                        case 409:
+                            setSignupError('user already exists')
+                            break;
+                        default:
+                            setSignupError('unknown error')
+                            break;
+                    }
                     console.log('error while trying to register')
-                    setSignupError('bad credentials')
                     event.target.reset();
                 }
             }
@@ -49,11 +58,11 @@ const RegisterTestForm = () => {
                     <input type={'password'} onChange={handleInputChange} name={'password'}/>
                 </div>
 
-                {signupError!="" && <span style={{backgroundColor:"darkred", fontWeight:"bold", padding:"5px"}}>{signupError}</span>}
+                {signupError!=="" && <span style={{backgroundColor:"darkred", fontWeight:"bold", padding:"5px"}}>{signupError}</span>}
 
                 <input type={'submit'} value={'Sign up'}/>
             </form>
-            <span>Already an user? <Link to={'/login'}><br/> Sign in</Link></span>
+            <span>Already an user? <Link to={'/login-register'}><br/> Sign in</Link></span>
         </div>
 
     );

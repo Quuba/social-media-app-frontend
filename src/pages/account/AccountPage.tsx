@@ -1,12 +1,13 @@
 import React from 'react';
-import {Link, useNavigate} from "react-router-dom";
-import profilePlaceholder from '../../profile-image-placeholder.png'
+import {useNavigate} from "react-router-dom";
+import profilePlaceholder from '../../assets/profile-image-placeholder.png'
 import './AccountPageStyle.css'
+import Header from "../../common/Header";
 
 const AccountPage = () => {
     const navigate = useNavigate();
 
-    const handleSignOut = (event:any) =>{
+    const handleSignOut = (event: any) => {
         event.preventDefault();
 
         localStorage.setItem('logged', 'false');
@@ -15,14 +16,17 @@ const AccountPage = () => {
     }
 
     return (
-        <div className={'AccountPage'}>
+        <>
+            <Header/>
+            <div className={'AccountPage'}>
 
-            <div className={'container'}>
-                <img src={profilePlaceholder}/>
-                <span>{localStorage.getItem('username')}</span>
+                <div className={'container'}>
+                    <img src={profilePlaceholder} alt={'profile image'}/>
+                    <span>{localStorage.getItem('username')}</span>
+                </div>
+                <button onClick={handleSignOut}>Sign out</button>
             </div>
-            <button onClick={handleSignOut}>Sign out</button>
-        </div>
+        </>
     );
 };
 

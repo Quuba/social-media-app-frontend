@@ -34,7 +34,7 @@
   --complementary-light-color:#D4664D;
 }
 
-.HomePage, .TestForm, .AccountPage, .FeedPage{
+ .AccountPage, .FeedPage{
   background-color: var(--primary-mid-color);
 
   margin-top: 50px;
