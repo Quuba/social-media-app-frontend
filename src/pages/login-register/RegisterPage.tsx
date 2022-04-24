@@ -1,61 +1,34 @@
 import React, {useState} from 'react';
 import './login-register.css'
 import {Link, useNavigate} from "react-router-dom";
+import {IRegisterFormData, RegisterService} from "../../services/LoginRegisterService";
 
 const RegisterPage = () => {
-    const [formData, setFormData] = useState<IRegisterForm>({username: "", email: "", password: ""});
+    const [formData, setFormData] = useState<IRegisterFormData>({username: "", email: "", password: ""});
 
     const [signupError, setSignupError] = useState<string>("")
 
-    interface IRegisterForm {
-        username: string;
-        email: string;
-        password: string;
-    }
+    const navigate = useNavigate();
 
     const handleInputChange = (event: any) => {
         setFormData(data => ({...data, [event.target.name]: event.target.value}));
     }
 
-    let navigate = useNavigate();
 
     const handleSubmit = (event: any) => {
         event.preventDefault();
-        console.log(formData);
-
-        const postData = {
-            username: formData.username,
-            password: formData.password
-        }
-
-        fetch(
-            'http://localhost:8080/api/user/register',
-            {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(postData)
+        RegisterService.register(formData, (status:number)=>{
+            switch (status) {
+                case 409:
+                    setSignupError('user already exists')
+                    break;
+                default:
+                    setSignupError('unknown error')
+                    break;
             }
-        ).then(
-            res => {
-                if (res.ok) {
-                    console.log('registered successfully')
-                    navigate('/login')
-                } else {
-                    switch (res.status) {
-                        case 409:
-                            setSignupError('user already exists')
-                            break;
-                        default:
-                            setSignupError('unknown error')
-                            break;
-                    }
-                    console.log('error while trying to register')
-                    event.target.reset();
-                }
-            }
-        ).catch(error => console.log('Error: ', error))
+            event.target.reset();
+        }, navigate)
+
     }
 
     return (

@@ -37,7 +37,7 @@ const LoginTestForm = () => {
                             // localStorage.setItem('JWS', data.username);
                             // localStorage.setItem('logged', 'true');
                             //
-                            // navigate('/home')
+                            // navigate('/HomePage')
                         }
                     )
                 } else {

@@ -2,7 +2,7 @@ import React from 'react';
 import {useNavigate} from "react-router-dom";
 import profilePlaceholder from '../../assets/profile-image-placeholder.png'
 import './AccountPageStyle.css'
-import Header from "../../common/Header";
+import Header from "../../components/Header";
 
 const AccountPage = () => {
     const navigate = useNavigate();
@@ -12,7 +12,7 @@ const AccountPage = () => {
 
         localStorage.setItem('logged', 'false');
 
-        navigate('/home')
+        navigate('/HomePage')
     }
 
     return (
@@ -23,6 +23,7 @@ const AccountPage = () => {
                 <div className={'container'}>
                     <img src={profilePlaceholder} alt={'profile image'}/>
                     <span>{localStorage.getItem('username')}</span>
+
                 </div>
                 <button onClick={handleSignOut}>Sign out</button>
             </div>

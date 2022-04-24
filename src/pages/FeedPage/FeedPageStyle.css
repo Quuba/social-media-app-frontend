@@ -1,6 +1,7 @@
 .FeedPage{
     justify-content: normal;
     height: fit-content;
+    padding-top: 15px;
 }
 
 .PostList{

@@ -1,63 +1,33 @@
 import React, {useState} from 'react';
 import './login-register.css'
 import {Link, useNavigate} from "react-router-dom";
+import {ILoginFormData, LoginService} from "../../services/LoginRegisterService";
+
 const LoginPage = () => {
-    const [formData, setFormData] = useState<ILoginForm>({username: "", password: ""});
+    const [formData, setFormData] = useState<ILoginFormData>({username: "", password: ""});
 
     const [loginError, setLoginError] = useState<string>("")
 
-    interface ILoginForm {
-        username: string;
-        password: string;
-    }
 
     const handleInputChange = (event: any) => {
         setFormData(data => ({...data, [event.target.name]: event.target.value}));
     }
-
-    let navigate = useNavigate();
+    const navigate = useNavigate();
 
     const handleSubmit = (event: any) => {
         event.preventDefault();
-        // console.log(formData);
-        fetch(
-            'http://localhost:8080/api/user/login',
-            {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(formData)
+        LoginService.login(formData, (status: number) => {
+            switch (status) {
+                case 404:
+                    setLoginError('user not found')
+                    break;
+                default:
+                    setLoginError('unknown error')
+                    break;
             }
-        ).then(
-            res => {
-                if (res.ok) {
-                    const token = res.headers.get('authorization');
-                    if(token != null){
-                        localStorage.setItem('jwt', token);
-                    }
-                    res.json().then(
-                        data => {
-                            console.log('logged in successfully')
-                            // console.log(data)
-                            localStorage.setItem('logged', 'true');
-                            navigate('/home')
-                        }
-                    )
-                } else {
-                    switch (res.status){
-                        case 404:
-                            setLoginError('user not found')
-                            break;
-                        case 401:
-                            setLoginError('wrong password')
-                            break;
-                    }
-                    console.log('failed to log in')
-                    event.target.reset();
-                }
-            }
-        ).catch(error => console.log('Error: ', error))
+            event.target.reset();
+        }, navigate)
+
     }
 
     return (
@@ -65,7 +35,7 @@ const LoginPage = () => {
             <form method={'post'} onSubmit={handleSubmit}>
                 <label>Name<span> *</span></label>
                 <input type={'text'} onChange={handleInputChange} name={'username'}/>
-                
+
 
                 <label>Password <span> *</span></label>
                 <input type={'password'} onChange={handleInputChange} name={'password'}/>
