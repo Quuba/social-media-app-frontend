@@ -3,18 +3,21 @@ import './App.css';
 import RegisterTestForm from "./pages/login-register/RegisterTestForm";
 import LoginTestForm from "./pages/login-register/LoginTestForm";
 import HomePage from "./pages/home/HomePage";
-import {useRoutes, Routes, Route, Link, HashRouter} from "react-router-dom";
+import {useRoutes, Routes, Route, Link, HashRouter, BrowserRouter} from "react-router-dom";
 import UserPage from "./pages/UserPage";
 import Header from "./common/Header";
 import FeedPage from "./pages/feed/FeedPage";
 import AccountPage from "./pages/account/AccountPage";
 import LoginPage from "./pages/login-register/LoginPage";
 import RegisterPage from "./pages/login-register/RegisterPage";
+import Cookies from 'universal-cookie'
 
 //useful: https://blog.logrocket.com/how-react-hooks-can-replace-react-router/
 
 
 const App = () => {
+
+    const cookies = new Cookies();
 
     let route = useRoutes([
         {path: '/', element: <HomePage/>},
@@ -36,9 +39,9 @@ const App = () => {
 
 const AppWrapper = () => {
     return (
-        <HashRouter>
+        <BrowserRouter>
             <App/>
-        </HashRouter>
+        </BrowserRouter>
     )
 }
 export default AppWrapper;

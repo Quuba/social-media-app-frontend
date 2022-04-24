@@ -29,7 +29,7 @@ const RegisterPage = () => {
         }
 
         fetch(
-            'http://localhost:8080/user/register',
+            'http://localhost:8080/api/user/register',
             {
                 method: 'POST',
                 headers: {

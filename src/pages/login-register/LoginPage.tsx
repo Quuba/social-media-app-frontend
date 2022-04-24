@@ -19,9 +19,9 @@ const LoginPage = () => {
 
     const handleSubmit = (event: any) => {
         event.preventDefault();
-        console.log(formData);
+        // console.log(formData);
         fetch(
-            'http://localhost:8080/user/login',
+            'http://localhost:8080/api/user/login',
             {
                 method: 'POST',
                 headers: {
@@ -32,14 +32,15 @@ const LoginPage = () => {
         ).then(
             res => {
                 if (res.ok) {
+                    const token = res.headers.get('authorization');
+                    if(token != null){
+                        localStorage.setItem('jwt', token);
+                    }
                     res.json().then(
                         data => {
                             console.log('logged in successfully')
-
-                            // console.log(data[0])
-                            // localStorage.setItem('JWS', data.username);
+                            // console.log(data)
                             localStorage.setItem('logged', 'true');
-                            //
                             navigate('/home')
                         }
                     )
