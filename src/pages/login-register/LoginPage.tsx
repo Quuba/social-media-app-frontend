@@ -41,7 +41,7 @@ const LoginPage = () => {
                 <input type={'password'} onChange={handleInputChange} name={'password'}/>
 
 
-                <input type={"submit"} value={'Sign up'}/>
+                <input type={"submit"} value={'Sign in'}/>
 
                 {loginError !== "" && <span className={'signup-error'}>{loginError}</span>}
 

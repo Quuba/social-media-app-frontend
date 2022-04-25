@@ -2,6 +2,7 @@
 interface ILoginFormData {
     username: string;
     password: string;
+
 }
 
 const LoginService = {
@@ -21,15 +22,22 @@ const LoginService = {
                 if (res.ok) {
                     const token = res.headers.get('authorization');
                     if (token != null) {
+                        //TODO: use cookies
                         localStorage.setItem('jwt', token);
-                        console.log(token)
                     }
                     res.json().then(
                         data => {
                             console.log('logged in successfully')
-                            // console.log(data)
+                            localStorage.setItem('username', data[0].username)
+                            localStorage.setItem('email', data[0].email)
+                            localStorage.setItem('description', data[0].description)
+                            localStorage.setItem('profile-image-uri', data[0].image)
+                            // console.log('image: ',localStorage.getItem('profile-image-uri') == 'null')
+
+                            //TODO:remove
+                            //instead, check if the jwt token cookie hasn't expired
                             localStorage.setItem('logged', 'true');
-                            navigate('/HomePage')
+                            navigate('/home')
                         }
                     )
                 } else {
@@ -44,15 +52,18 @@ interface IRegisterFormData{
     username: string;
     email: string;
     password: string;
+    description:string;
 }
 const RegisterService = {
 
 
-    register: function (formData: ILoginFormData, onFail: Function, navigate:any) {
+    register: function (formData: IRegisterFormData, onFail: Function, navigate:any) {
 
         const postData = {
             username: formData.username,
-            password: formData.password
+            password: formData.password,
+            email: formData.email,
+            description: formData.description,
         }
         fetch(
             'http://localhost:8080/api/user/register',

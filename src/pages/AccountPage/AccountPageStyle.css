@@ -11,13 +11,26 @@
     margin-top: 20px;
     padding: 10px;
     display: flex;
+    flex-direction: column;
     justify-content: space-evenly;
     align-items: center;
     font-size: 26px;
+
+    padding: 40px 0;
 }
 
 .container img{
-    width: clamp(50px, 10%, 300px);
+    width: clamp(60px, 10%, 300px);
+    aspect-ratio: 1/1;
+    font-size: 18px;
+    border: 1px solid whitesmoke;
+}
+.container .Description{
+    min-height: 50px;
+}
+.container .Username button{
+    width: fit-content;
+    margin-left: 10px;
 }
 button{
     width: 25%;

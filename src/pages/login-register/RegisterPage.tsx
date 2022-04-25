@@ -4,7 +4,7 @@ import {Link, useNavigate} from "react-router-dom";
 import {IRegisterFormData, RegisterService} from "../../services/LoginRegisterService";
 
 const RegisterPage = () => {
-    const [formData, setFormData] = useState<IRegisterFormData>({username: "", email: "", password: ""});
+    const [formData, setFormData] = useState<IRegisterFormData>({username: "", email: "", password: "", description:""});
 
     const [signupError, setSignupError] = useState<string>("")
 
@@ -51,7 +51,7 @@ const RegisterPage = () => {
                 {signupError !== "" && <span className={'signup-error'}>{signupError}</span>}
 
             </form>
-            <h3>Have an account?</h3>
+            <h3>Already have an account?</h3>
             <h4><Link to={'/login'}>Sign in</Link></h4>
         </div>
     );

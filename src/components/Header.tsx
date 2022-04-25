@@ -5,9 +5,8 @@ import NavElement from "./NavElement";
 const Header = () => {
     return (
         <div className={'Header'}>
-            <NavElement name={'Home'} url={'/HomePage'}/>
-            <NavElement name={'Account'} url={'/AccountPage'}/>
-
+            <NavElement name={'Home'} url={'/home'}/>
+            <NavElement name={'Account'} url={'/account'}/>
 
         </div>
     );
