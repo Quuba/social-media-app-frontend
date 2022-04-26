@@ -1,31 +1,46 @@
 import {LocalStorageHelper} from "../utils/LocalStorageHelper";
+import store, {selectUserData} from "../store/store";
+import {useSelector} from "react-redux";
 
 const ChangeUserDataService = {
+
     changeUsername: function (newUsername: string) {
+        const userdata= store.getState().userData;
+
+        console.log(userdata)
+
         const patchData = {
-            oldUsername: LocalStorageHelper.getFromStorage('username'),
+            oldUsername: userdata.username,
             newUsername: newUsername
         }
 
-        const token:string = LocalStorageHelper.getFromStorage('jwt');
-        fetch('http://localhost:8080/api/user/update-username',
+        this.fetchWithToken('PATCH', 'http://localhost:8080/api/user/update-username', patchData)
+
+        return newUsername
+    },
+    fetchWithToken: async function (method: string, uri: string, data: object) {
+
+        //TODO: use cookies
+        const token: string = LocalStorageHelper.getFromStorage('jwt');
+
+        return await fetch(uri,
             {
-                method: 'PATCH',
+                method: method,
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': token
                 },
-                body: JSON.stringify(patchData)
+                body: JSON.stringify(data)
             })
             .then(res => {
-                if(res.ok){
+                if (res.ok) {
                     console.log('changed username successfully')
+                }else {
+                    console.log('error while changing username')
                 }
             })
-
-        localStorage.setItem('username', newUsername)
-        return newUsername
     }
 }
+
 
 export {ChangeUserDataService}

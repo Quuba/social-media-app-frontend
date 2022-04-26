@@ -1,3 +1,5 @@
+import store, {setUsername} from "../store/store";
+import {useDispatch} from "react-redux";
 
 interface ILoginFormData {
     username: string;
@@ -19,6 +21,7 @@ const LoginService = {
             }
         ).then(
             res => {
+                const dispatch = useDispatch()
                 if (res.ok) {
                     const token = res.headers.get('authorization');
                     if (token != null) {
@@ -28,7 +31,8 @@ const LoginService = {
                     res.json().then(
                         data => {
                             console.log('logged in successfully')
-                            localStorage.setItem('username', data[0].username)
+
+                            dispatch(setUsername(data[0].username))
                             localStorage.setItem('email', data[0].email)
                             localStorage.setItem('description', data[0].description)
                             localStorage.setItem('profile-image-uri', data[0].image)

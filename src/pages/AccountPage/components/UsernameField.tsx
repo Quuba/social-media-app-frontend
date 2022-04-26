@@ -1,6 +1,7 @@
 import React, {FC, useEffect, useState} from 'react';
 import {LocalStorageHelper} from "../../../utils/LocalStorageHelper";
-import {ChangeUserDataService} from "../../../services/ChangeUserDataService";
+import {useDispatch, useSelector} from "react-redux";
+import store, {changeUsername, selectUserData} from "../../../store/store";
 
 interface IUsernameField {
     username: string;
@@ -9,31 +10,33 @@ interface IUsernameField {
 const UsernameField: FC<IUsernameField> = ({username}) => {
     const [canEdit, setCanEdit] = useState<boolean>(false)
     const [inputData, setInputData] = useState<string>("")
-    const [_username, _setUsername] = useState<string>(LocalStorageHelper.getFromStorage('username'))
+
+    const userData = useSelector(selectUserData)
+    const dispatch = useDispatch()
+
     function switchEdit() {
-        if(canEdit && inputData != ''){
-            ChangeUserDataService.changeUsername(inputData)
-            _setUsername(inputData)
-        }else if(!canEdit || inputData == ''){
+        if (canEdit && inputData != '') {
+            console.log('test1')
+            dispatch(changeUsername(inputData))
+        } else if (!canEdit || inputData == '') {
             setInputData('')
         }
 
         setCanEdit(!canEdit)
     }
-    function handleInputChange(event:any){
+
+    function handleInputChange(event: any) {
         setInputData(event.target.value)
     }
 
-    useEffect(()=>{
-        _setUsername(username);
-    },[])
     return (
         <div className={'Username'}>
             {
                 canEdit ?
-                    <input type={'text'} placeholder={LocalStorageHelper.getFromStorage('username')} onChange={handleInputChange}/>
+                    <input type={'text'} placeholder={userData.username}
+                           onChange={handleInputChange}/>
                     :
-                    <span>{LocalStorageHelper.getFromStorage('username')}</span>
+                    <span>{userData.username}</span>
             }
             <button onClick={switchEdit}>edit</button>
         </div>
