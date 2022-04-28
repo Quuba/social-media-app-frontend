@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import './login-register.css'
 import {Link, useNavigate} from "react-router-dom";
 import {ILoginFormData, LoginService} from "../../services/LoginRegisterService";
+import {useDispatch} from "react-redux";
 
 const LoginPage = () => {
     const [formData, setFormData] = useState<ILoginFormData>({username: "", password: ""});
@@ -12,7 +13,9 @@ const LoginPage = () => {
     const handleInputChange = (event: any) => {
         setFormData(data => ({...data, [event.target.name]: event.target.value}));
     }
+
     const navigate = useNavigate();
+    const dispatch = useDispatch()
 
     const handleSubmit = (event: any) => {
         event.preventDefault();
@@ -26,7 +29,7 @@ const LoginPage = () => {
                     break;
             }
             event.target.reset();
-        }, navigate)
+        }, navigate, dispatch)
 
     }
 

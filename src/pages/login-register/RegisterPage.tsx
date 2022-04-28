@@ -4,30 +4,47 @@ import {Link, useNavigate} from "react-router-dom";
 import {IRegisterFormData, RegisterService} from "../../services/LoginRegisterService";
 
 const RegisterPage = () => {
-    const [formData, setFormData] = useState<IRegisterFormData>({username: "", email: "", password: "", description:""});
+
+    const [formData, setFormData] = useState<IRegisterFormData>({username: "", email: "", password: "", description:"" });
+    const [passwordRepeated, setPasswordRepeated] = useState("")
 
     const [signupError, setSignupError] = useState<string>("")
 
     const navigate = useNavigate();
 
     const handleInputChange = (event: any) => {
-        setFormData(data => ({...data, [event.target.name]: event.target.value}));
+        if(event.target.name == 'password-repeated'){
+            setPasswordRepeated(event.target.value)
+        }
+        else{
+            setFormData(data => ({...data, [event.target.name]: event.target.value}));
+        }
     }
 
 
     const handleSubmit = (event: any) => {
         event.preventDefault();
-        RegisterService.register(formData, (status:number)=>{
-            switch (status) {
-                case 409:
-                    setSignupError('user already exists')
-                    break;
-                default:
-                    setSignupError('unknown error')
-                    break;
+        if(formData.password == passwordRepeated){
+            if(formData.email != null){
+                RegisterService.register(formData, (status:number)=>{
+                    switch (status) {
+                        case 409:
+                            setSignupError('user already exists')
+                            break;
+                        default:
+                            setSignupError('unknown error')
+                            break;
+                    }
+                    event.target.reset();
+                }, navigate)
+            }else{
+                setSignupError('add your email')
             }
-            event.target.reset();
-        }, navigate)
+
+        }else{
+            setSignupError(`passwords don't match`)
+        }
+
 
     }
 
@@ -37,14 +54,14 @@ const RegisterPage = () => {
                 <label>Name<span> *</span></label>
                 <input type={'text'} onChange={handleInputChange} name={'username'}/>
 
-                <label>Email</label>
+                <label>Email<span> *</span></label>
                 <input type={'email'} onChange={handleInputChange} name={'email'}/>
 
                 <label>Password <span> *</span></label>
                 <input type={'password'} onChange={handleInputChange} name={'password'}/>
 
                 <label>Repeat password</label>
-                <input type={'password'} onChange={handleInputChange} name={'password-repeat'}/>
+                <input type={'password'} onChange={handleInputChange} name={'password-repeated'}/>
 
                 <input type={"submit"} value={'Sign up'}/>
 

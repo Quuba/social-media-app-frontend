@@ -1,18 +1,21 @@
-import React, {FC, useState} from 'react';
+import React, {useRef, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {selectUserData} from "../../../store/store";
 import {ChangeUserDataService} from "../../../services/ChangeUserDataService";
 
-const UsernameField = () => {
+const DescriptionField = () => {
     const [canEdit, setCanEdit] = useState<boolean>(false)
     const [inputData, setInputData] = useState<string>("")
 
     const userData = useSelector(selectUserData)
     const dispatch = useDispatch()
 
+    let focusElement = useRef<any>(null)
     function switchEdit() {
+        // focusElement.current?.focus();
+
         if (canEdit && inputData != '') {
-            ChangeUserDataService.changeUsername(inputData, dispatch);
+            ChangeUserDataService.changeDescription(inputData, dispatch);
         } else if (!canEdit || inputData == '') {
             setInputData('')
         }
@@ -25,13 +28,13 @@ const UsernameField = () => {
     }
 
     return (
-        <div className={'Username'}>
+
+        <div className={'Description'}>
             {
                 canEdit ?
-                    <input type={'text'} placeholder={userData.username}
-                           onChange={handleInputChange}/>
+                    <textarea placeholder={userData.description != null ? userData.description : 'your description'} onChange={handleInputChange} autoFocus={true}/>
                     :
-                    <span>{userData.username}</span>
+                    <p>{userData.description}</p>
             }
             <button onClick={switchEdit}>edit</button>
         </div>
@@ -39,4 +42,4 @@ const UsernameField = () => {
     );
 };
 
-export default UsernameField;
+export default DescriptionField;

@@ -3,10 +3,23 @@
     width: 80vw;
     padding-top: 50px;
     display: grid;
-    grid-template-columns: 1.5fr 1fr;
+    grid-template-columns: .5fr 1fr;
     color: var(--text-light-color);
     text-align: left;
 }
+@media only screen and (max-width: 1000px) {
+    .HomePage {
+        height: 90vh;
+        width: 90vw;
+        padding-top: 50px;
+        display: grid;
+        grid-template-rows: 1fr 1fr;
+        grid-template-columns: 1fr;
+        color: var(--text-light-color);
+        text-align: left;
+    }
+}
+
 #left{
     display: flex;
     justify-content: center;
@@ -14,8 +27,7 @@
 
 }
 #left p{
-    min-width: 180px;
-    font-size: calc(150px + 5vw);
+    font-size: calc(42px + 2vw);
 
 }
 #right{
@@ -23,6 +35,15 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    padding-top: 90px;
+
+}
+@media only screen and (max-width: 1000px) {
+    #right{
+        padding-top: 0;
+        margin-top: -150px;
+    }
+
 }
 .Link{
     display: inline-block;
@@ -37,17 +58,34 @@
 }
 
 .HomePage h3{
-    font-size: 1.7vw;
+    font-size: calc(16px + 1.5vw);
+
 }
 #sign-box{
+    height: calc(150px + 3vw);
+    width: calc(300px + 2vw);
     margin-top: 50px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 
     background-color: var(--complementary-light-color);
     padding: 10px;
     border-radius: 2px;
 
+
     box-shadow: black 8px 8px;
 }
 #sign-box h2, #sign-box h4{
     margin-top: 5px;
+}
+
+#sign-box h2{
+    font-size: calc(24px + 0.8vw);
+
+}
+#sign-box h4{
+    font-size: calc(14px + 0.5vw);
+
 }

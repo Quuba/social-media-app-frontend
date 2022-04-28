@@ -6,8 +6,10 @@ import FeedPage from "./pages/FeedPage/FeedPage";
 import AccountPage from "./pages/AccountPage/AccountPage";
 import LoginPage from "./pages/login-register/LoginPage";
 import RegisterPage from "./pages/login-register/RegisterPage";
-import {Provider} from "react-redux";
+import {Provider, useDispatch} from "react-redux";
 import store from "./store/store";
+import {ChangeUserDataService} from "./services/ChangeUserDataService";
+import LogoutPage from "./pages/LogoutPage";
 
 //useful: https://blog.logrocket.com/how-react-hooks-can-replace-react-router/
 
@@ -16,10 +18,14 @@ const App = () => {
 
     let route = useRoutes([
         {path: '/', element: <HomePage/>},
-        {path: '/home', element: localStorage.getItem('logged')=='true' ? <FeedPage/> : <HomePage/>},
+        {path: '/home', element: localStorage.getItem('logged') == 'true' ? <FeedPage/> : <HomePage/>},
         {path: '/login', element: <LoginPage/>},
         {path: '/register', element: <RegisterPage/>},
-        {path: '/account', element: <AccountPage/>}
+        {path: '/account', element: <AccountPage/>},
+        //TODO: implement
+        {path: '/logout', element: <LogoutPage/>},
+        {path: '/email-sent'}
+
 
     ])
 

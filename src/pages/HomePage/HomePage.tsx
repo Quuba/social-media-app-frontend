@@ -8,7 +8,7 @@ const HomePage = () => {
         <>
         <div className={'HomePage'}>
             <div id={'left'}>
-                <p>{"</>"}</p>
+                <p>{"<BitSpace/>"}</p>
             </div>
             <div id={'right'}>
                 <h3>Join the growing community of our users</h3>

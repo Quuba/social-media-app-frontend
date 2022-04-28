@@ -5,13 +5,11 @@ import './AccountPageStyle.css'
 import Header from "../../components/Header";
 import {LocalStorageHelper} from "../../utils/LocalStorageHelper";
 import UsernameField from "./components/UsernameField";
+import DescriptionField from "./components/DescriptionField";
+import LogoutService from "../../services/LogoutService";
+import {IPublicUserData, selectUserData} from "../../store/store";
+import {useSelector} from "react-redux";
 
-interface IUserPublicData {
-    username: string;
-    profileImageUri: string;
-    description: string;
-    verified: boolean;
-}
 
 const AccountPage = () => {
     const navigate = useNavigate();
@@ -20,32 +18,16 @@ const AccountPage = () => {
         event.preventDefault();
 
         //TODO: use cookies
-        localStorage.setItem('logged', 'false');
+        // localStorage.setItem('logged', 'false');
+        LogoutService.logout(navigate)
+    }
+    const handleVerify = () => {
 
-        navigate('/')
     }
 
     const [canEdit, setCanEdit] = useState<boolean>(false)
 
-    const [userData, setUserData] = useState<IUserPublicData>({
-        username: 'null',
-        profileImageUri: 'null',
-        description: 'null',
-        verified: false
-    })
-
-    useEffect(() => {
-        const storageData: IUserPublicData = {
-            username: LocalStorageHelper.getFromStorage('username'),
-            description: LocalStorageHelper.getFromStorage('description'),
-            profileImageUri: LocalStorageHelper.getFromStorage('profile-image-uri'),
-            verified: false
-        }
-        if (storageData.username != null) {
-            setUserData(storageData);
-        }
-
-    }, [])
+    const userData = useSelector(selectUserData)
 
     return (
         <>
@@ -54,14 +36,22 @@ const AccountPage = () => {
 
                 <div className={'container'}>
 
-                    <img src={userData.profileImageUri != 'null' ? userData.profileImageUri : profilePlaceholder}
+                    <img src={userData.image != null ? userData.image : profilePlaceholder}
                          alt={'profile image'}/>
-                    <h5>Username:</h5>
-                    <UsernameField username={userData.username}/>
-                    <h5>Description</h5>
-                    <p className={'Description'}>{userData.description}</p>
-                    <h5>Verified:</h5>
-                    <span className={'Verified'}>{userData.verified ? 'verified' : 'not verified'}</span>
+                    <div className={'block'}>
+                        <h5>Username</h5>
+                        <UsernameField/>
+                    </div>
+                    <div className={'block'}>
+                        <h5>Description</h5>
+                        <DescriptionField/>
+                    </div>
+
+                    {userData.verified ?
+                        <span className={'Verified'}>{userData.verified ? 'verified' : 'not verified'}</span>
+                        :
+                        <button onClick={handleVerify}>Verify your account</button>
+                    }
                 </div>
 
                 <button onClick={handleSignOut}>Sign out</button>
