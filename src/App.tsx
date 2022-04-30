@@ -10,6 +10,7 @@ import {Provider, useDispatch} from "react-redux";
 import store from "./store/store";
 import {ChangeUserDataService} from "./services/ChangeUserDataService";
 import LogoutPage from "./pages/LogoutPage";
+import VerificationInfoPage from "./services/VerificationInfoPage";
 
 //useful: https://blog.logrocket.com/how-react-hooks-can-replace-react-router/
 
@@ -24,7 +25,7 @@ const App = () => {
         {path: '/account', element: <AccountPage/>},
         //TODO: implement
         {path: '/logout', element: <LogoutPage/>},
-        {path: '/email-sent'}
+        {path: '/email-sent', element: <VerificationInfoPage/>}
 
 
     ])

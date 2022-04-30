@@ -48,26 +48,6 @@ const LoginService = {
                             // console.log('store verified:')
                             // console.log(store.getState().userData.verified)
 
-                            if (!isVerified) {
-                                // console.log('sending email')
-                                const mailData = {
-                                    username: store.getState().userData.username,
-                                    title: 'title',
-                                    content: '',
-                                    directionMail: store.getState().userData.email
-                                }
-                                fetch(
-                                    'http://localhost:8080/api/user/send-verification-mail',
-                                    {
-                                        method: 'POST',
-                                        headers: {
-                                            'Content-Type': 'application/json',
-                                            'Authorization': LocalStorageHelper.getFromStorage('jwt')
-                                        },
-                                        body: JSON.stringify(mailData)
-                                    }
-                                ).then(navigate('/logout'))
-                            }
                             //TODO:remove
                             //instead, check if the jwt token cookie hasn't expired
                             localStorage.setItem('logged', 'true');

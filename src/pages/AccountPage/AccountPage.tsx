@@ -7,7 +7,7 @@ import {LocalStorageHelper} from "../../utils/LocalStorageHelper";
 import UsernameField from "./components/UsernameField";
 import DescriptionField from "./components/DescriptionField";
 import LogoutService from "../../services/LogoutService";
-import {IPublicUserData, selectUserData} from "../../store/store";
+import store, {IPublicUserData, selectUserData} from "../../store/store";
 import {useSelector} from "react-redux";
 
 
@@ -22,10 +22,25 @@ const AccountPage = () => {
         LogoutService.logout(navigate)
     }
     const handleVerify = () => {
-
+        const mailData = {
+            username: store.getState().userData.username,
+            title: 'title',
+            content: '',
+            directionMail: store.getState().userData.email
+        }
+        //show loading circle
+        fetch(
+            'http://localhost:8080/api/user/send-verification-mail',
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': LocalStorageHelper.getFromStorage('jwt')
+                },
+                body: JSON.stringify(mailData)
+            }
+        ).then(res => navigate('/email-sent'))
     }
-
-    const [canEdit, setCanEdit] = useState<boolean>(false)
 
     const userData = useSelector(selectUserData)
 
@@ -47,6 +62,7 @@ const AccountPage = () => {
                         <DescriptionField/>
                     </div>
 
+                    <h5>Account Status</h5>
                     {userData.verified ?
                         <span className={'Verified'}>{userData.verified ? 'verified' : 'not verified'}</span>
                         :
